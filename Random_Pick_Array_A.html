@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Element Selector</title>
+    
+</head>
+<body>
+
+    <button id="pickButton">Pick Random Element</button>
+    <div id="result">Click the button to start!</div>
+
+    <script>
+        // 1. Define the array of choices
+        const choices = ["🍎 Apple", "🍌 Banana", "🍒 Cherry", "🍊 Orange", "🍇 Grape"];
+
+        // 2. Create the random picker function
+        function getRandomElement(array) {
+            const randomIndex = Math.floor(Math.random() * array.length);
+            return array[randomIndex];
+        }
+
+        // 3. Set up references to the HTML elements
+        const button = document.getElementById("pickButton");
+        const resultDisplay = document.getElementById("result");
+
+        // 4. Trigger the function on click and print the result
+        button.addEventListener("click", function() {
+            const randomChoice = getRandomElement(choices);
+            resultDisplay.textContent = randomChoice;
+        });
+    </script>
+
+</body>
+</html>

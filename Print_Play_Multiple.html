@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Element Selector</title>
+    
+</head>
+<body>
+
+    <button id="Pick_Play_Button1">Pick and Play 1 </button>
+    <div id="result1">Click the button to start!</div>
+     <button id="Pick_Play_Button2">Pick and Play 2 </button>
+    <div id="result2">Click the button to start!</div>
+
+    <script>
+            
+             const myCtx = new AudioContext();
+            
+            function playNote1(someContext, frequency, duration)
+        {
+            const osc1 = new OscillatorNode(someContext);
+            const osc2 = new OscillatorNode(someContext);
+            const osc3 = new OscillatorNode(someContext);
+            const gain = new GainNode(someContext);
+        
+            
+            osc1.frequency.value = frequency;
+            osc2.frequency.value = frequency*2.01;
+            osc3.frequency.value = frequency*1.01;
+            osc1.type = "triangle"
+            osc2.type = "triangle"
+            osc3.type = "sine"
+            gain.gain.value = 0;
+
+            osc1.connect(gain).connect(someContext.destination);
+            osc2.connect(gain).connect(someContext.destination);
+            osc3.connect(gain).connect(someContext.destination);
+
+            let now = someContext.currentTime;
+
+            gain.gain.linearRampToValueAtTime(0.25, now + 0.01); //attack
+            gain.gain.linearRampToValueAtTime(0.10, now + 0.01 + 0.2)
+            gain.gain.linearRampToValueAtTime(0, now + duration); //release
+
+            osc1.start();
+            osc1.stop(now + duration);
+
+            osc2.start();
+            osc2.stop(now + duration);
+
+            osc3.start();
+            osc3.stop(now + duration);
+
+        }
+        
+        // 1. Define the array of choices
+        const midiPitches1 = [60, 62, 63, 67, 69, 72];
+
+        // 2. Create the random picker function
+        const randomPitch1 = function() {
+            let randomMidiNote = midiPitches1[Math.floor(Math.random() * midiPitches1.length)];
+            
+            let newFreq = 440 * 2 ** ((randomMidiNote - 69) / 12);
+
+            return newFreq;
+        }
+
+        // 3. Set up references to the HTML elements
+        const button1 = document.getElementById("Pick_Play_Button1");
+        const resultDisplay = document.getElementById("result1");
+
+        // 4. Trigger the function on click and print the result
+        button1.addEventListener("click", function() {
+            const randomChoice1 = randomPitch1(midiPitches1);
+            resultDisplay.textContent = randomChoice1;
+
+              });
+
+            //5. play the note
+            document.querySelector("#Pick_Play_Button1").onclick = () => playNote1(myCtx, randomPitch1(), 2);
+
+          
+
+          //////This is the 2nd Button Set up
+
+                       function playNote2(someContext, frequency, duration)
+        {
+            const osc1 = new OscillatorNode(someContext);
+            const osc2 = new OscillatorNode(someContext);
+            const osc3 = new OscillatorNode(someContext);
+            const gain = new GainNode(someContext);
+        
+            
+            osc1.frequency.value = frequency;
+            osc2.frequency.value = frequency*2.01;
+            osc3.frequency.value = frequency*1.01;
+            osc1.type = "triangle"
+            osc2.type = "triangle"
+            osc3.type = "sine"
+            gain.gain.value = 0;
+
+            osc1.connect(gain).connect(someContext.destination);
+            osc2.connect(gain).connect(someContext.destination);
+            osc3.connect(gain).connect(someContext.destination);
+
+            let now = someContext.currentTime;
+
+            gain.gain.linearRampToValueAtTime(0.25, now + 0.01); //attack
+            gain.gain.linearRampToValueAtTime(0.10, now + 0.01 + 0.2)
+            gain.gain.linearRampToValueAtTime(0, now + duration); //release
+
+            osc1.start();
+            osc1.stop(now + duration);
+
+            osc2.start();
+            osc2.stop(now + duration);
+
+            osc3.start();
+            osc3.stop(now + duration);
+
+        }
+        
+        // 1. Define the array of choices
+        const midiPitches2 = [48, 43, 50, 53, 57, 60];
+
+        // 2. Create the random picker function
+        const randomPitch2 = function() {
+            let randomMidiNote = midiPitches2[Math.floor(Math.random() * midiPitches2.length)];
+            
+            let newFreq = 440 * 2 ** ((randomMidiNote - 69) / 12);
+
+            return newFreq;
+        }
+
+        // 3. Set up references to the HTML elements
+        const button2 = document.getElementById("Pick_Play_Button2");
+        const resultDisplay2 = document.getElementById("result2");
+
+        // 4. Trigger the function on click and print the result
+        button2.addEventListener("click", function() {
+            const randomChoice2 = randomPitch2(midiPitches2);
+            resultDisplay2.textContent = randomChoice2;
+
+            //5. play the note
+            document.querySelector("#Pick_Play_Button2").onclick = () => playNote2(myCtx, randomPitch2(), 2);
+
+        });
+    </script>
+
+</body>
+</html>
