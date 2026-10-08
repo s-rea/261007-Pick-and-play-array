@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Select Array Multi</title>
+  </head>
+  <body>
+    <button id="Pick_Play_Button">Pick and Play 1</button>
+    <div id="result">Click to start!</div>
+    <button id="Pick_Play_Button2">Pick and Play 2</button>
+    <div id="result2">Click to start!</div>
+    <button id="Pick_Play_Button3">Pick and Play 3</button>
+    <div id="result3">Click to start!</div>
+    <button id="Pick_Play_Button4">Pick and Play 4</button>
+    <div id="result4">Click to start!</div>
+
+    <script>
+      const myCtx = new AudioContext();
+
+      //random selector 1
+      function playNote(someContext, frequency, duration) {
+        const osc1 = new OscillatorNode(someContext);
+        const osc2 = new OscillatorNode(someContext);
+        const osc3 = new OscillatorNode(someContext);
+        const gain = new GainNode(someContext);
+
+        osc1.frequency.value = frequency;
+        osc2.frequency.value = frequency * 2.01;
+        osc3.frequency.value = frequency * 1.01;
+        osc1.type = "triangle";
+        osc2.type = "triangle";
+        osc3.type = "sine";
+        gain.gain.value = 0;
+
+        osc1.connect(gain).connect(someContext.destination);
+        osc2.connect(gain).connect(someContext.destination);
+        osc3.connect(gain).connect(someContext.destination);
+
+        let now = someContext.currentTime;
+
+        gain.gain.linearRampToValueAtTime(0.25, now + duration * 0.01); //attack
+        gain.gain.linearRampToValueAtTime(0.1, now + duration * 0.2);
+        gain.gain.linearRampToValueAtTime(0, now + duration); //release
+
+        osc1.start();
+        osc1.stop(now + duration);
+
+        osc2.start();
+        osc2.stop(now + duration);
+
+        osc3.start();
+        osc3.stop(now + duration);
+      }
+
+      // array 1
+      const midiPitches = [60, 62, 63, 67, 69, 72];
+
+      const randomPitch = function () {
+        let randomMidiNote =
+          midiPitches[Math.floor(Math.random() * midiPitches.length)];
+
+        let newFreq = 440 * 2 ** ((randomMidiNote - 69) / 12);
+
+        return newFreq;
+      };
+
+      const button = document.getElementById("Pick_Play_Button");
+      const resultDisplay = document.getElementById("result");
+
+      button.addEventListener("click", function () {
+        const randomChoice = randomPitch(midiPitches);
+        resultDisplay.textContent = randomChoice;
+
+        document.querySelector("#Pick_Play_Button").onclick = () =>
+          playNote(myCtx, randomPitch(), 2);
+      });
+
+      //random selector 2
+      function playNote2(someContext, frequency, duration) {
+        const osc4 = new OscillatorNode(someContext);
+        const osc5 = new OscillatorNode(someContext);
+        const osc6 = new OscillatorNode(someContext);
+        const gain = new GainNode(someContext);
+
+        osc4.frequency.value = frequency;
+        osc5.frequency.value = frequency * 2.01;
+        osc6.frequency.value = frequency * 1.01;
+        osc4.type = "sine";
+        osc5.type = "sine";
+        osc6.type = "square";
+        gain.gain.value = 0;
+
+        osc4.connect(gain).connect(someContext.destination);
+        osc5.connect(gain).connect(someContext.destination);
+        osc6.connect(gain).connect(someContext.destination);
+
+        let now = someContext.currentTime;
+
+        gain.gain.exponentialRampToValueAtTime(0.25, now + duration * 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.1, now + duration * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        osc4.start();
+        osc4.stop(now + duration);
+
+        osc5.start();
+        osc5.stop(now + duration);
+
+        osc6.start();
+        osc6.stop(now + duration);
+      }
+
+      //array 2
+      const midiPitches2 = [30, 32, 34, 38, 45, 49];
+
+      const randomPitch2 = function () {
+        let randomMidiNote =
+          midiPitches2[Math.floor(Math.random() * midiPitches2.length)];
+
+        let newFreq = 440 * 2 ** ((randomMidiNote - 69) / 12);
+
+        return newFreq;
+      };
+      const button2 = document.getElementById("Pick_Play_Button2");
+      const result2Display = document.getElementById("result2");
+
+      button2.addEventListener("click", function () {
+        const randomChoice2 = randomPitch2(midiPitches2);
+        result2Display.textContent = randomChoice2;
+
+        document.querySelector("#Pick_Play_Button2").onclick = () =>
+          playNote2(myCtx, randomPitch2(), 2);
+      });
+
+      // random selector 3
+      function playNote3(someContext, frequency, duration) {
+        const osc7 = new OscillatorNode(someContext);
+        const osc8 = new OscillatorNode(someContext);
+        const osc9 = new OscillatorNode(someContext);
+        const gain = new GainNode(someContext);
+
+        osc7.frequency.value = frequency;
+        osc8.frequency.value = frequency * 2.01;
+        osc9.frequency.value = frequency * 1.01;
+        osc7.type = "square";
+        osc8.type = "square";
+        osc9.type = "sawtooth";
+        gain.gain.value = 0;
+
+        osc7.connect(gain).connect(someContext.destination);
+        osc8.connect(gain).connect(someContext.destination);
+        osc9.connect(gain).connect(someContext.destination);
+
+        let now = someContext.currentTime;
+
+        gain.gain.exponentialRampToValueAtTime(0.25, now + duration * 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.1, now + duration * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        osc7.start();
+        osc7.stop(now + duration);
+
+        osc8.start();
+        osc8.stop(now + duration);
+
+        osc9.start();
+        osc9.stop(now + duration);
+      }
+
+      //array 3
+      const midiPitches3 = [80, 82, 87, 94, 96, 99];
+
+      const randomPitch3 = function () {
+        let randomMidiNote =
+          midiPitches3[Math.floor(Math.random() * midiPitches3.length)];
+
+        let newFreq = 440 * 2 ** ((randomMidiNote - 69) / 12);
+
+        return newFreq;
+      };
+      const button3 = document.getElementById("Pick_Play_Button3");
+      const result3Display = document.getElementById("result3");
+
+      button3.addEventListener("click", function () {
+        const randomChoice3 = randomPitch3(midiPitches3);
+        result3Display.textContent = randomChoice3;
+      });
+      document.querySelector("#Pick_Play_Button3").onclick = () =>
+        playNote3(myCtx, randomPitch3(), 2);
+
+      //Random Selector 4
+      function playNote4(someContext, frequency, duration) {
+        const osc10 = new OscillatorNode(someContext);
+        const osc11 = new OscillatorNode(someContext);
+        const osc12 = new OscillatorNode(someContext);
+        const gain = new GainNode(someContext);
+
+        osc10.frequency.value = frequency;
+        osc11.frequency.value = frequency * 2.01;
+        osc12.frequency.value = frequency * 1.01;
+        osc10.type = "trianle";
+        osc11.type = "sine";
+        osc12.type = "square";
+        gain.gain.value = 0;
+
+        osc10.connect(gain).connect(someContext.destination);
+        osc11.connect(gain).connect(someContext.destination);
+        osc12.connect(gain).connect(someContext.destination);
+
+        let now = someContext.currentTime;
+
+        gain.gain.exponentialRampToValueAtTime(0.25, now + duration * 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.1, now + duration * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        osc10.start();
+        osc10.stop(now + duration);
+
+        osc11.start();
+        osc11.stop(now + duration);
+
+        osc12.start();
+        osc12.stop(now + duration);
+      }
+
+      //array 4
+      const midiPitches4 = [50, 33, 67, 80, 46, 72];
+
+      const randomPitch4 = function () {
+        let randomMidiNote =
+          midiPitches4[Math.floor(Math.random() * midiPitches4.length)];
+
+        let newFreq = 440 * 2 ** ((randomMidiNote - 69) / 12);
+
+        return newFreq;
+      };
+
+      const button4 = document.getElementById("Pick_Play_Button4");
+      const result4Display = document.getElementById("result4");
+
+      button4.addEventListener("click", function () {
+        const randomChoice4 = randomPitch4(midiPitches4);
+        result4Display.textContent = randomChoice4;
+
+        document.querySelector("#Pick_Play_Button4").onclick = () =>
+          playNote4(myCtx, randomPitch4(), 2);
+      });
+    </script>
+  </body>
+</html>
